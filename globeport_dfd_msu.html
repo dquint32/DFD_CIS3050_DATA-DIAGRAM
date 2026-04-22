@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>GlobePort Level 0 DFD — MSU Denver</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@400;700;900&family=Source+Sans+3:wght@300;400;600;700&display=swap');
+
+  :root {
+    --red:    #C8102E;
+    --red-lt: #e8274b;
+    --navy:   #003DA5;
+    --navy-lt:#1a5fd4;
+    --gold:   #F0A500;
+    --white:  #f4f6fa;
+    --muted:  #8a9ab5;
+    --bg:     #04060b;
+    --bg2:    #0b0f1a;
+    --border: #1c2440;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    font-family: 'Source Sans 3', sans-serif;
+    color: var(--white);
+    padding: 40px 20px 60px;
+  }
+
+  /* ---- HEADER ---- */
+  .header {
+    text-align: center;
+    margin-bottom: 48px;
+  }
+
+  .header .school-tag {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--red);
+    border: 1px solid var(--red);
+    border-radius: 3px;
+    padding: 4px 14px;
+    margin-bottom: 16px;
+  }
+
+  .header h1 {
+    font-family: 'Merriweather', serif;
+    font-size: 30px;
+    font-weight: 900;
+    line-height: 1.2;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+
+  .header h1 span { color: var(--red); }
+
+  .header .sub {
+    font-size: 13px;
+    color: var(--muted);
+    letter-spacing: 0.06em;
+  }
+
+  /* ---- LEGEND ---- */
+  .legend {
+    display: flex;
+    gap: 32px;
+    justify-content: center;
+    margin-bottom: 44px;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .l-dot {
+    width: 18px; height: 18px; border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 9px; font-weight: 700; color: white;
+  }
+  .l-actor   { background: #071f3a; border: 2px solid #1a5fd4; }
+  .l-process { background: #1a0009; border: 2px solid #C8102E; }
+  .l-store   { background: #0d1f07; border: 2px solid #3fa832; }
+
+  /* ---- SVG WRAPPER ---- */
+  .diagram-wrap {
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  svg { width: 100%; height: auto; display: block; }
+
+  .node-g { cursor: default; }
+  .node-g:hover rect { filter: brightness(1.2); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="school-tag">Metropolitan State University of Denver</div>
+  <h1>GlobePort <span>Level 0 DFD</span></h1>
+  <p class="sub">CIS 3050 &nbsp;·&nbsp; Automated Global Registration System &nbsp;·&nbsp; 9 Processes &nbsp;·&nbsp; 7 Actors &nbsp;·&nbsp; 6 Data Stores</p>
+</div>
+
+<!-- LEGEND -->
+<div class="legend">
+  <div class="legend-item"><div class="l-dot l-actor"></div> External Actor</div>
+  <div class="legend-item"><div class="l-dot l-process"></div> Process</div>
+  <div class="legend-item"><div class="l-dot l-store"></div> Data Store</div>
+</div>
+
+<!-- DIAGRAM -->
+<div class="diagram-wrap">
+<svg viewBox="0 0 1360 2200" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <!-- ARROWS -->
+  <marker id="a-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M1 2 L8 5 L1 8" fill="none" stroke="#1a5fd4" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <marker id="a-green" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M1 2 L8 5 L1 8" fill="none" stroke="#3fa832" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <marker id="a-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M1 2 L8 5 L1 8" fill="none" stroke="#C8102E" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+  <marker id="a-gold" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M1 2 L8 5 L1 8" fill="none" stroke="#F0A500" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+
+  <!-- glow filters -->
+  <filter id="glow-red" x="-20%" y="-20%" width="140%" height="140%">
+    <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur"/>
+    <feFlood flood-color="#C8102E" flood-opacity="0.4" result="color"/>
+    <feComposite in="color" in2="blur" operator="in" result="shadow"/>
+    <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+  <filter id="glow-blue" x="-20%" y="-20%" width="140%" height="140%">
+    <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur"/>
+    <feFlood flood-color="#1a5fd4" flood-opacity="0.35" result="color"/>
+    <feComposite in="color" in2="blur" operator="in" result="shadow"/>
+    <feMerge><feMergeNode in="shadow"/><feMergeNode in="SourceGraphic"/></feMerge>
+  </filter>
+</defs>
+
+<!-- ================================================================
+  LAYOUT:
+  Actors      x=30   w=200
+  Processes   x=370  w=240
+  Stores      x=790  w=200
+  Right gutter x=1060
+================================================================ -->
+
+<!-- ══════════════════════════════════════════════════════════
+     ROW 1  —  RESELLERS  /  1.0 Receive Reseller Data  /  DS1
+══════════════════════════════════════════════════════════ -->
+
+<!-- Actor: Resellers -->
+<g class="node-g" filter="url(#glow-blue)">
+  <rect x="30" y="80" width="200" height="80" rx="10" fill="#071f3a" stroke="#1a5fd4" stroke-width="2"/>
+  <text x="130" y="110" text-anchor="middle" font-family="Merriweather,serif" font-size="16" font-weight="700" fill="#7ab8f5">Resellers</text>
+  <text x="130" y="132" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="12" fill="#4d7fb5">External partner</text>
+  <text x="130" y="150" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#3a6090">Submits registration data</text>
+</g>
+
+<!-- Process 1.0 -->
+<g class="node-g" filter="url(#glow-red)">
+  <rect x="370" y="68" width="240" height="96" rx="12" fill="#1a0009" stroke="#C8102E" stroke-width="2"/>
+  <text x="490" y="96" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" font-weight="700" letter-spacing="0.1em" fill="#e8274b">PROCESS 1.0</text>
+  <text x="490" y="120" text-anchor="middle" font-family="Merriweather,serif" font-size="16" font-weight="700" fill="#f4f6fa">Receive Reseller Data</text>
+  <text x="490" y="142" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="12" fill="#a0536a">Portal / email / fax intake</text>
+  <text x="490" y="157" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#7a3a50">Captures customer info &amp; product config</text>
+</g>
+
+<!-- DS1 Reseller Database -->
+<g class="node-g">
+  <rect x="790" y="78" width="200" height="70" rx="6" fill="#0a1f07" stroke="#3fa832" stroke-width="2"/>
+  <text x="890" y="102" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="10" font-weight="700" letter-spacing="0.14em" fill="#5fcf52">DS1</text>
+  <text x="890" y="122" text-anchor="middle" font-family="Merriweather,serif" font-size="14" font-weight="700" fill="#a8e8a0">Reseller Database</text>
+  <text x="890" y="140" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#4a8a44">Master registration records</text>
+</g>
+
+<!-- Reseller → 1.0 : Registration packet -->
+<line x1="232" y1="108" x2="368" y2="108" stroke="#1a5fd4" stroke-width="2" marker-end="url(#a-blue)"/>
+<rect x="236" y="90" width="128" height="20" rx="4" fill="#04060b" stroke="#1c2440" stroke-width="1"/>
+<text x="300" y="104" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#7ab8f5">Registration packet</text>
+
+<!-- 1.0 → Reseller : Tracking ID -->
+<line x1="368" y1="134" x2="232" y2="134" stroke="#1a5fd4" stroke-width="2" marker-end="url(#a-blue)"/>
+<rect x="236" y="136" width="90" height="20" rx="4" fill="#04060b" stroke="#1c2440" stroke-width="1"/>
+<text x="281" y="150" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#7ab8f5">Tracking ID</text>
+
+<!-- 1.0 → DS1 : Raw record saved -->
+<line x1="612" y1="108" x2="788" y2="108" stroke="#3fa832" stroke-width="2" marker-end="url(#a-green)"/>
+<rect x="630" y="90" width="128" height="20" rx="4" fill="#04060b" stroke="#1c2440" stroke-width="1"/>
+<text x="694" y="104" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#7acf6a">Raw record saved</text>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     ROW 2  —  DISTRIBUTORS  /  2.0 Integrate Distributor  /  DS2
+══════════════════════════════════════════════════════════ -->
+
+<!-- Actor: Distributors -->
+<g class="node-g" filter="url(#glow-blue)">
+  <rect x="30" y="270" width="200" height="80" rx="10" fill="#071f3a" stroke="#1a5fd4" stroke-width="2"/>
+  <text x="130" y="300" text-anchor="middle" font-family="Merriweather,serif" font-size="16" font-weight="700" fill="#7ab8f5">Distributors</text>
+  <text x="130" y="322" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="12" fill="#4d7fb5">Intermediary partner</text>
+  <text x="130" y="340" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#3a6090">Sends API payloads</text>
+</g>
+
+<!-- Process 2.0 -->
+<g class="node-g" filter="url(#glow-red)">
+  <rect x="370" y="258" width="240" height="96" rx="12" fill="#1a0009" stroke="#C8102E" stroke-width="2"/>
+  <text x="490" y="286" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" font-weight="700" letter-spacing="0.1em" fill="#e8274b">PROCESS 2.0</text>
+  <text x="490" y="310" text-anchor="middle" font-family="Merriweather,serif" font-size="16" font-weight="700" fill="#f4f6fa">Integrate Distributor</text>
+  <text x="490" y="332" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="12" fill="#a0536a">API / middleware intake</text>
+  <text x="490" y="347" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#7a3a50">Maps to SAP / Siebel fields</text>
+</g>
+
+<!-- DS2 Integration Log -->
+<g class="node-g">
+  <rect x="790" y="268" width="200" height="70" rx="6" fill="#0a1f07" stroke="#3fa832" stroke-width="2"/>
+  <text x="890" y="292" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="10" font-weight="700" letter-spacing="0.14em" fill="#5fcf52">DS2</text>
+  <text x="890" y="312" text-anchor="middle" font-family="Merriweather,serif" font-size="14" font-weight="700" fill="#a8e8a0">Integration Log</text>
+  <text x="890" y="330" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#4a8a44">API errors &amp; status codes</text>
+</g>
+
+<!-- Distributor → 2.0 : API payload -->
+<line x1="232" y1="298" x2="368" y2="298" stroke="#1a5fd4" stroke-width="2" marker-end="url(#a-blue)"/>
+<rect x="238" y="280" width="90" height="20" rx="4" fill="#04060b" stroke="#1c2440" stroke-width="1"/>
+<text x="283" y="294" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#7ab8f5">API payload</text>
+
+<!-- 2.0 → Distributor : Status sync -->
+<line x1="368" y1="326" x2="232" y2="326" stroke="#1a5fd4" stroke-width="2" marker-end="url(#a-blue)"/>
+<rect x="238" y="328" width="90" height="20" rx="4" fill="#04060b" stroke="#1c2440" stroke-width="1"/>
+<text x="283" y="342" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#7ab8f5">Status sync</text>
+
+<!-- 2.0 → DS2 : Error logged -->
+<line x1="612" y1="298" x2="788" y2="298" stroke="#3fa832" stroke-width="2" marker-end="url(#a-green)"/>
+<rect x="630" y="280" width="100" height="20" rx="4" fill="#04060b" stroke="#1c2440" stroke-width="1"/>
+<text x="680" y="294" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#7acf6a">Error logged</text>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     ROW 3  —  3.0 Validate Submission  /  DS3
+     (Internal flow from 1.0 and 2.0)
+══════════════════════════════════════════════════════════ -->
+
+<!-- Process 3.0 -->
+<g class="node-g" filter="url(#glow-red)">
+  <rect x="370" y="458" width="240" height="96" rx="12" fill="#1a0009" stroke="#C8102E" stroke-width="2"/>
+  <text x="490" y="486" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" font-weight="700" letter-spacing="0.1em" fill="#e8274b">PROCESS 3.0</text>
+  <text x="490" y="510" text-anchor="middle" font-family="Merriweather,serif" font-size="16" font-weight="700" fill="#f4f6fa">Validate Submission</text>
+  <text x="490" y="532" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="12" fill="#a0536a">Checks all mandatory fields</text>
+  <text x="490" y="547" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#7a3a50">Enforces format &amp; completeness rules</text>
+</g>
+
+<!-- DS3 Validation Rules -->
+<g class="node-g">
+  <rect x="790" y="468" width="200" height="70" rx="6" fill="#0a1f07" stroke="#3fa832" stroke-width="2"/>
+  <text x="890" y="492" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="10" font-weight="700" letter-spacing="0.14em" fill="#5fcf52">DS3</text>
+  <text x="890" y="512" text-anchor="middle" font-family="Merriweather,serif" font-size="14" font-weight="700" fill="#a8e8a0">Validation Rules</text>
+  <text x="890" y="530" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#4a8a44">Mandatory field &amp; format rules</text>
+</g>
+
+<!-- 1.0 → 3.0 : Internal flow -->
+<path d="M490 166 L490 456" fill="none" stroke="#C8102E" stroke-width="1.8" stroke-dasharray="8 5" marker-end="url(#a-red)"/>
+<rect x="494" y="290" width="120" height="20" rx="4" fill="#04060b" stroke="#1c2440" stroke-width="1"/>
+<text x="554" y="304" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#e8274b">→ Send to validation</text>
+
+<!-- 2.0 → 3.0 : Internal flow -->
+<path d="M458 356 L458 456" fill="none" stroke="#C8102E" stroke-width="1.8" stroke-dasharray="8 5" marker-end="url(#a-red)"/>
+
+<!-- DS3 → 3.0 : Fetch rules -->
+<line x1="788" y1="500" x2="612" y2="500" stroke="#3fa832" stroke-width="2" marker-end="url(#a-green)"/>
+<rect x="630" y="482" width="120" height="20" rx="4" fill="#04060b" stroke="#1c2440" stroke-width="1"/>
+<text x="690" y="496" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#7acf6a">Fetch validation rules</text>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     ROW 4  —  REG STAFF  /  4.0 Manual Review  /  DS4
+══════════════════════════════════════════════════════════ -->
+
+<!-- Actor: Registration Staff -->
+<g class="node-g" filter="url(#glow-blue)">
+  <rect x="30" y="660" width="200" height="80" rx="10" fill="#071f3a" stroke="#1a5fd4" stroke-width="2"/>
+  <text x="130" y="688" text-anchor="middle" font-family="Merriweather,serif" font-size="15" font-weight="700" fill="#7ab8f5">Registration</text>
+  <text x="130" y="708" text-anchor="middle" font-family="Merriweather,serif" font-size="15" font-weight="700" fill="#7ab8f5">Staff</text>
+  <text x="130" y="730" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#3a6090">Internal reviewer</text>
+</g>
+
+<!-- Process 4.0 -->
+<g class="node-g" filter="url(#glow-red)">
+  <rect x="370" y="648" width="240" height="96" rx="12" fill="#1a0009" stroke="#C8102E" stroke-width="2"/>
+  <text x="490" y="676" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" font-weight="700" letter-spacing="0.1em" fill="#e8274b">PROCESS 4.0</text>
+  <text x="490" y="700" text-anchor="middle" font-family="Merriweather,serif" font-size="16" font-weight="700" fill="#f4f6fa">Manual Review</text>
+  <text x="490" y="722" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="12" fill="#a0536a">&amp; Correction</text>
+  <text x="490" y="737" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#7a3a50">Staff resolve flagged or incomplete records</text>
+</g>
+
+<!-- DS4 Pending Review Queue -->
+<g class="node-g">
+  <rect x="790" y="658" width="200" height="70" rx="6" fill="#0a1f07" stroke="#3fa832" stroke-width="2"/>
+  <text x="890" y="682" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="10" font-weight="700" letter-spacing="0.14em" fill="#5fcf52">DS4</text>
+  <text x="890" y="702" text-anchor="middle" font-family="Merriweather,serif" font-size="14" font-weight="700" fill="#a8e8a0">Pending Review Queue</text>
+  <text x="890" y="720" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#4a8a44">Failed &amp; incomplete packets</text>
+</g>
+
+<!-- 3.0 → DS4 : Failed record -->
+<path d="M612 540 Q730 540 730 690 L788 690" fill="none" stroke="#3fa832" stroke-width="2" marker-end="url(#a-green)"/>
+<rect x="696" y="594" width="104" height="20" rx="4" fill="#04060b" stroke="#1c2440" stroke-width="1"/>
+<text x="748" y="608" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#7acf6a">Failed record → DS4</text>
+
+<!-- 3.0 → 4.0 : Pending review -->
+<path d="M490 556 L490 646" fill="none" stroke="#C8102E" stroke-width="1.8" stroke-dasharray="8 5" marker-end="url(#a-red)"/>
+<rect x="494" y="592" width="110" height="20" rx="4" fill="#04060b" stroke="#1c2440" stroke-width="1"/>
+<text x="549" y="606" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#e8274b">Pending review</text>
+
+<!-- Staff → 4.0 : Approvals -->
+<line x1="232" y1="690" x2="368" y2="690" stroke="#1a5fd4" stroke-width="2" marker-end="url(#a-blue)"/>
+<rect x="238" y="672" width="90" height="20" rx="4" fill="#04060b" stroke="#1c2440" stroke-width="1"/>
+<text x="283" y="686" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#7ab8f5">Approvals</text>
+
+<!-- 4.0 → Staff : Alert / request -->
+<line x1="368" y1="718" x2="232" y2="718" stroke="#1a5fd4" stroke-width="2" marker-end="url(#a-blue)"/>
+<rect x="238" y="720" width="108" height="20" rx="4" fill="#04060b" stroke="#1c2440" stroke-width="1"/>
+<text x="292" y="734" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#7ab8f5">Alert / missing info</text>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     ROW 5  —  8.0 Store & Retrieve Records  (center)
+══════════════════════════════════════════════════════════ -->
+
+<!-- Process 8.0 -->
+<g class="node-g" filter="url(#glow-red)">
+  <rect x="370" y="860" width="240" height="96" rx="12" fill="#1a0009" stroke="#C8102E" stroke-width="2"/>
+  <text x="490" y="888" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" font-weight="700" letter-spacing="0.1em" fill="#e8274b">PROCESS 8.0</text>
+  <text x="490" y="912" text-anchor="middle" font-family="Merriweather,serif" font-size="16" font-weight="700" fill="#f4f6fa">Store &amp; Retrieve</text>
+  <text x="490" y="934" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="12" fill="#a0536a">Records</text>
+  <text x="490" y="949" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#7a3a50">Permanently saves approved registrations</text>
+</g>
+
+<!-- 4.0 → 8.0 : Approved record -->
+<path d="M490 746 L490 858" fill="none" stroke="#C8102E" stroke-width="1.8" stroke-dasharray="8 5" marker-end="url(#a-red)"/>
+<rect x="494" y="795" width="116" height="20" rx="4" fill="#04060b" stroke="#1c2440" stroke-width="1"/>
+<text x="552" y="809" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#e8274b">Approved record</text>
+
+<!-- 8.0 → DS1 : Write record (long right curve) -->
+<path d="M612 900 Q1080 900 1080 114 L992 114" fill="none" stroke="#3fa832" stroke-width="2" marker-end="url(#a-green)"/>
+<rect x="1042" y="490" width="100" height="20" rx="4" fill="#04060b" stroke="#1c2440" stroke-width="1"/>
+<text x="1092" y="504" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#7acf6a">Write record → DS1</text>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     ROW 6  —  REGIONAL OPS  /  5.0 Apply Regional Rules  /  DS6
+══════════════════════════════════════════════════════════ -->
+
+<!-- Actor: Regional Ops -->
+<g class="node-g" filter="url(#glow-blue)">
+  <rect x="30" y="1070" width="200" height="80" rx="10" fill="#071f3a" stroke="#1a5fd4" stroke-width="2"/>
+  <text x="130" y="1098" text-anchor="middle" font-family="Merriweather,serif" font-size="15" font-weight="700" fill="#7ab8f5">Regional Ops</text>
+  <text x="130" y="1118" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="12" fill="#4d7fb5">Teams</text>
+  <text x="130" y="1138" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#3a6090">Local compliance gatekeepers</text>
+</g>
+
+<!-- Process 5.0 -->
+<g class="node-g" filter="url(#glow-red)">
+  <rect x="370" y="1058" width="240" height="96" rx="12" fill="#1a0009" stroke="#C8102E" stroke-width="2"/>
+  <text x="490" y="1086" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" font-weight="700" letter-spacing="0.1em" fill="#e8274b">PROCESS 5.0</text>
+  <text x="490" y="1110" text-anchor="middle" font-family="Merriweather,serif" font-size="16" font-weight="700" fill="#f4f6fa">Apply Regional Rules</text>
+  <text x="490" y="1132" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="12" fill="#a0536a">Region-specific checks</text>
+  <text x="490" y="1147" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#7a3a50">Validates docs per local regulations</text>
+</g>
+
+<!-- DS6 Regional Config -->
+<g class="node-g">
+  <rect x="790" y="1068" width="200" height="70" rx="6" fill="#0a1f07" stroke="#3fa832" stroke-width="2"/>
+  <text x="890" y="1092" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="10" font-weight="700" letter-spacing="0.14em" fill="#5fcf52">DS6</text>
+  <text x="890" y="1112" text-anchor="middle" font-family="Merriweather,serif" font-size="14" font-weight="700" fill="#a8e8a0">Regional Config Store</text>
+  <text x="890" y="1130" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#4a8a44">Regional rules &amp; doc requirements</text>
+</g>
+
+<!-- 8.0 → 5.0 : Region check -->
+<path d="M490 958 L490 1056" fill="none" stroke="#C8102E" stroke-width="1.8" stroke-dasharray="8 5" marker-end="url(#a-red)"/>
+<rect x="494" y="1000" width="100" height="20" rx="4" fill="#04060b" stroke="#1c2440" stroke-width="1"/>
+<text x="544" y="1014" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#e8274b">Region check</text>
+
+<!-- Regional Ops → 5.0 : Local rules -->
+<line x1="232" y1="1098" x2="368" y2="1098" stroke="#1a5fd4" stroke-width="2" marker-end="url(#a-blue)"/>
+<rect x="240" y="1080" width="86" height="20" rx="4" fill="#04060b" stroke="#1c2440" stroke-width="1"/>
+<text x="283" y="1094" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#7ab8f5">Local rules</text>
+
+<!-- 5.0 → Regional Ops : Compliance alert -->
+<line x1="368" y1="1126" x2="232" y2="1128" stroke="#1a5fd4" stroke-width="2" marker-end="url(#a-blue)"/>
+<rect x="240" y="1130" width="116" height="20" rx="4" fill="#04060b" stroke="#1c2440" stroke-width="1"/>
+<text x="298" y="1144" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#7ab8f5">Compliance alert</text>
+
+<!-- DS6 → 5.0 : Config fetch -->
+<line x1="788" y1="1098" x2="612" y2="1098" stroke="#3fa832" stroke-width="2" marker-end="url(#a-green)"/>
+<rect x="634" y="1080" width="100" height="20" rx="4" fill="#04060b" stroke="#1c2440" stroke-width="1"/>
+<text x="684" y="1094" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#7acf6a">Config fetch</text>
+
+<!-- 5.0 → 8.0 : Region cleared -->
+<path d="M370 1068 Q300 1010 370 958" fill="none" stroke="#C8102E" stroke-width="1.8" stroke-dasharray="8 5" marker-end="url(#a-red)"/>
+<rect x="230" y="1010" width="118" height="20" rx="4" fill="#04060b" stroke="#1c2440" stroke-width="1"/>
+<text x="289" y="1024" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#e8274b">Region cleared</text>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     ROW 7  —  IT & SYS ADMIN  /  6.0 Manage System Integration
+══════════════════════════════════════════════════════════ -->
+
+<!-- Actor: IT & Sys Admin -->
+<g class="node-g" filter="url(#glow-blue)">
+  <rect x="30" y="1270" width="200" height="80" rx="10" fill="#071f3a" stroke="#1a5fd4" stroke-width="2"/>
+  <text x="130" y="1298" text-anchor="middle" font-family="Merriweather,serif" font-size="15" font-weight="700" fill="#7ab8f5">IT &amp; Sys Admin</text>
+  <text x="130" y="1318" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="12" fill="#4d7fb5">Integration team</text>
+  <text x="130" y="1338" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#3a6090">Manages APIs &amp; middleware</text>
+</g>
+
+<!-- Process 6.0 -->
+<g class="node-g" filter="url(#glow-red)">
+  <rect x="370" y="1258" width="240" height="96" rx="12" fill="#1a0009" stroke="#C8102E" stroke-width="2"/>
+  <text x="490" y="1286" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" font-weight="700" letter-spacing="0.1em" fill="#e8274b">PROCESS 6.0</text>
+  <text x="490" y="1310" text-anchor="middle" font-family="Merriweather,serif" font-size="16" font-weight="700" fill="#f4f6fa">Manage System</text>
+  <text x="490" y="1332" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="12" fill="#a0536a">Integration</text>
+  <text x="490" y="1347" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#7a3a50">Monitors API connections &amp; logs errors</text>
+</g>
+
+<!-- DS2 (referenced again) -->
+<g class="node-g">
+  <rect x="790" y="1268" width="200" height="70" rx="6" fill="#0a1f07" stroke="#3fa832" stroke-width="2" stroke-dasharray="6 4"/>
+  <text x="890" y="1290" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="10" font-weight="700" letter-spacing="0.14em" fill="#5fcf52">DS2  ↗ ref</text>
+  <text x="890" y="1310" text-anchor="middle" font-family="Merriweather,serif" font-size="14" font-weight="700" fill="#a8e8a0">Integration Log</text>
+  <text x="890" y="1328" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#4a8a44">Referenced from Row 2</text>
+</g>
+
+<!-- IT → 6.0 : API config -->
+<line x1="232" y1="1296" x2="368" y2="1298" stroke="#1a5fd4" stroke-width="2" marker-end="url(#a-blue)"/>
+<rect x="238" y="1278" width="90" height="20" rx="4" fill="#04060b" stroke="#1c2440" stroke-width="1"/>
+<text x="283" y="1292" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#7ab8f5">API config</text>
+
+<!-- 6.0 → IT : Error logs -->
+<line x1="368" y1="1330" x2="232" y2="1328" stroke="#1a5fd4" stroke-width="2" marker-end="url(#a-blue)"/>
+<rect x="238" y="1332" width="90" height="20" rx="4" fill="#04060b" stroke="#1c2440" stroke-width="1"/>
+<text x="283" y="1346" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#7ab8f5">Error logs</text>
+
+<!-- 6.0 → DS2 : Integration report -->
+<line x1="612" y1="1306" x2="788" y2="1306" stroke="#3fa832" stroke-width="2" marker-end="url(#a-green)"/>
+<rect x="630" y="1288" width="118" height="20" rx="4" fill="#04060b" stroke="#1c2440" stroke-width="1"/>
+<text x="689" y="1302" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#7acf6a">Integration report</text>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     ROW 8  —  COMPLIANCE  /  7.0 Enforce Compliance  /  DS5
+══════════════════════════════════════════════════════════ -->
+
+<!-- Actor: Compliance & Legal -->
+<g class="node-g" filter="url(#glow-blue)">
+  <rect x="30" y="1468" width="200" height="80" rx="10" fill="#071f3a" stroke="#1a5fd4" stroke-width="2"/>
+  <text x="130" y="1496" text-anchor="middle" font-family="Merriweather,serif" font-size="15" font-weight="700" fill="#7ab8f5">Compliance</text>
+  <text x="130" y="1516" text-anchor="middle" font-family="Merriweather,serif" font-size="15" font-weight="700" fill="#7ab8f5">&amp; Legal</text>
+  <text x="130" y="1538" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#3a6090">Policy &amp; regulatory oversight</text>
+</g>
+
+<!-- Process 7.0 -->
+<g class="node-g" filter="url(#glow-red)">
+  <rect x="370" y="1456" width="240" height="96" rx="12" fill="#1a0009" stroke="#C8102E" stroke-width="2"/>
+  <text x="490" y="1484" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" font-weight="700" letter-spacing="0.1em" fill="#e8274b">PROCESS 7.0</text>
+  <text x="490" y="1508" text-anchor="middle" font-family="Merriweather,serif" font-size="16" font-weight="700" fill="#f4f6fa">Enforce Compliance</text>
+  <text x="490" y="1530" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="12" fill="#a0536a">Audit &amp; policy enforcement</text>
+  <text x="490" y="1545" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#7a3a50">Applies regulations &amp; generates audit trails</text>
+</g>
+
+<!-- DS5 Compliance Docs -->
+<g class="node-g">
+  <rect x="790" y="1466" width="200" height="70" rx="6" fill="#0a1f07" stroke="#3fa832" stroke-width="2"/>
+  <text x="890" y="1490" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="10" font-weight="700" letter-spacing="0.14em" fill="#5fcf52">DS5</text>
+  <text x="890" y="1510" text-anchor="middle" font-family="Merriweather,serif" font-size="14" font-weight="700" fill="#a8e8a0">Compliance Docs</text>
+  <text x="890" y="1528" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#4a8a44">Required documents by region</text>
+</g>
+
+<!-- Compliance → 7.0 : Policy update -->
+<line x1="232" y1="1494" x2="368" y2="1494" stroke="#1a5fd4" stroke-width="2" marker-end="url(#a-blue)"/>
+<rect x="238" y="1476" width="104" height="20" rx="4" fill="#04060b" stroke="#1c2440" stroke-width="1"/>
+<text x="290" y="1490" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#7ab8f5">Policy update</text>
+
+<!-- 7.0 → Compliance : Audit trail -->
+<line x1="368" y1="1524" x2="232" y2="1524" stroke="#1a5fd4" stroke-width="2" marker-end="url(#a-blue)"/>
+<rect x="238" y="1526" width="90" height="20" rx="4" fill="#04060b" stroke="#1c2440" stroke-width="1"/>
+<text x="283" y="1540" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#7ab8f5">Audit trail</text>
+
+<!-- 7.0 → DS5 : Doc list update -->
+<line x1="612" y1="1494" x2="788" y2="1494" stroke="#3fa832" stroke-width="2" marker-end="url(#a-green)"/>
+<rect x="632" y="1476" width="114" height="20" rx="4" fill="#04060b" stroke="#1c2440" stroke-width="1"/>
+<text x="689" y="1490" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#7acf6a">Doc list update</text>
+
+<!-- 7.0 → DS6 (long right curve up) -->
+<path d="M612 1530 Q1130 1530 1130 1104 L992 1104" fill="none" stroke="#3fa832" stroke-width="2" marker-end="url(#a-green)"/>
+<rect x="1040" y="1308" width="116" height="20" rx="4" fill="#04060b" stroke="#1c2440" stroke-width="1"/>
+<text x="1098" y="1322" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#7acf6a">Region config update</text>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     ROW 9  —  SALES & SUPPORT  /  9.0 Support Acct Mgmt
+══════════════════════════════════════════════════════════ -->
+
+<!-- Actor: Sales & Support -->
+<g class="node-g" filter="url(#glow-blue)">
+  <rect x="30" y="1680" width="200" height="80" rx="10" fill="#071f3a" stroke="#1a5fd4" stroke-width="2"/>
+  <text x="130" y="1708" text-anchor="middle" font-family="Merriweather,serif" font-size="15" font-weight="700" fill="#7ab8f5">Sales &amp; Support</text>
+  <text x="130" y="1728" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="12" fill="#4d7fb5">Customer service agents</text>
+  <text x="130" y="1748" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#3a6090">Manages accounts &amp; tickets</text>
+</g>
+
+<!-- Process 9.0 -->
+<g class="node-g" filter="url(#glow-red)">
+  <rect x="370" y="1668" width="240" height="96" rx="12" fill="#1a0009" stroke="#C8102E" stroke-width="2"/>
+  <text x="490" y="1696" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" font-weight="700" letter-spacing="0.1em" fill="#e8274b">PROCESS 9.0</text>
+  <text x="490" y="1720" text-anchor="middle" font-family="Merriweather,serif" font-size="16" font-weight="700" fill="#f4f6fa">Support Account</text>
+  <text x="490" y="1742" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="12" fill="#a0536a">Management</text>
+  <text x="490" y="1757" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#7a3a50">Verifies entitlements &amp; flags gray-market</text>
+</g>
+
+<!-- Sales → 9.0 : Support ticket -->
+<line x1="232" y1="1708" x2="368" y2="1708" stroke="#1a5fd4" stroke-width="2" marker-end="url(#a-blue)"/>
+<rect x="238" y="1690" width="104" height="20" rx="4" fill="#04060b" stroke="#1c2440" stroke-width="1"/>
+<text x="290" y="1704" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#7ab8f5">Support ticket</text>
+
+<!-- 9.0 → Sales : Entitlement record -->
+<line x1="368" y1="1736" x2="232" y2="1736" stroke="#1a5fd4" stroke-width="2" marker-end="url(#a-blue)"/>
+<rect x="238" y="1738" width="116" height="20" rx="4" fill="#04060b" stroke="#1c2440" stroke-width="1"/>
+<text x="296" y="1752" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#7ab8f5">Entitlement record</text>
+
+<!-- DS1 → 9.0 : Record lookup (far right long path) -->
+<path d="M992 114 Q1200 114 1200 1718 L612 1718" fill="none" stroke="#3fa832" stroke-width="2" marker-end="url(#a-green)"/>
+<rect x="1126" y="916" width="120" height="20" rx="4" fill="#04060b" stroke="#1c2440" stroke-width="1"/>
+<text x="1186" y="930" text-anchor="middle" font-family="Source Sans 3,sans-serif" font-size="11" fill="#7acf6a">Record lookup → DS1</text>
+
+
+<!-- ══════════════════════════════════════════════════════════
+     FLOW KEY
+══════════════════════════════════════════════════════════ -->
+<rect x="30" y="1840" width="960" height="170" rx="12" fill="#0b0f1a" stroke="#1c2440" stroke-width="1.5"/>
+
+<text x="60" y="1874" font-family="Merriweather,serif" font-size="14" font-weight="700" fill="#f4f6fa">FLOW KEY</text>
+<text x="60" y="1894" font-family="Source Sans 3,sans-serif" font-size="12" fill="#8a9ab5">Read each arrow color to understand the type of data movement</text>
+
+<!-- Key row 1 -->
+<line x1="60" y1="1926" x2="140" y2="1926" stroke="#1a5fd4" stroke-width="2.5" marker-end="url(#a-blue)"/>
+<text x="155" y="1931" font-family="Source Sans 3,sans-serif" font-size="13" fill="#7ab8f5">Actor ↔ Process   (external people or systems sending/receiving data)</text>
+
+<!-- Key row 2 -->
+<line x1="60" y1="1960" x2="140" y2="1960" stroke="#3fa832" stroke-width="2.5" marker-end="url(#a-green)"/>
+<text x="155" y="1965" font-family="Source Sans 3,sans-serif" font-size="13" fill="#7acf6a">Process ↔ Data Store   (reading from or writing to a database)</text>
+
+<!-- Key row 3 -->
+<line x1="60" y1="1994" x2="140" y2="1994" stroke="#C8102E" stroke-width="2.5" stroke-dasharray="8 5" marker-end="url(#a-red)"/>
+<text x="155" y="1999" font-family="Source Sans 3,sans-serif" font-size="13" fill="#e8274b">Internal Process → Process   (data moving between two internal steps)</text>
+
+</svg>
+</div>
+
+</body>
+</html>
